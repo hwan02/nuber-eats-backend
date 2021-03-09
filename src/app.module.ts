@@ -5,13 +5,14 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { RestaurantsModule } from './restaurants/restaurant.module';
 import { Restaurant } from './restaurants/entities/restaurant.entity';
+import { UsersModule } from './users/users.module';
+import { User } from './users/entities/user.entity';
 
 @Module({
   imports: [
     GraphQLModule.forRoot({
       autoSchemaFile: true,
     }),
-    RestaurantsModule,
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: process.env.NODE_ENV === "dev" ? ".env.dev" : ".env.test",
@@ -36,12 +37,13 @@ import { Restaurant } from './restaurants/entities/restaurant.entity';
     database: process.env.DB_NAME,
     synchronize: process.env.NODE_ENV !== 'prod',
     logging: true,
-    entities: [Restaurant],
+    entities: [User],
 // }).then(connection => {
     // here you can start to work with your entities
 // }).catch(error => console.log(error));
 
-    })
+    }),
+    UsersModule
   ],
   controllers: [],
   providers: [],
