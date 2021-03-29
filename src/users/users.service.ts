@@ -53,7 +53,7 @@ export class UserService {
     try {
       const user = await this.users.findOne(
         { email },
-        { select: ['password'] },
+        { select: ['id','password'] },
       );
       if (!user) {
         return {
@@ -102,6 +102,7 @@ export class UserService {
       if (email) {
         user.email = email;
         user.verified = false;
+        await this.verifications.delete({user:{id: user.id}});
         const verification = await this.verifications.save(
           this.verifications.create({ user }),
         );
