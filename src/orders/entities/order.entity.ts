@@ -17,12 +17,14 @@ import { IsEnum, IsNumber } from 'class-validator';
     JoinTable,
     ManyToMany,
     ManyToOne,
+    RelationId,
   } from 'typeorm';
 import { OrderItem } from './order-item.entity';
   
   export enum OrderStatus {
     Pending = 'Pending',
     Cooking = 'Cooking',
+    Cooked = 'Cooked',
     PickedUp = 'PickedUp',
     Delivered = 'Delivered',
   }
@@ -41,6 +43,9 @@ import { OrderItem } from './order-item.entity';
     )
     customer?: User;
   
+    @RelationId((order: Order) => order.customer)
+    customerId: number;
+
     @Field(type => User, { nullable: true })
     @ManyToOne(
       type => User,
@@ -49,6 +54,9 @@ import { OrderItem } from './order-item.entity';
     )
     driver?: User;
   
+    @RelationId((order: Order) => order.driver)
+    driverId: number;
+    
     @Field(type => Restaurant, {nullable: true})
     @ManyToOne(
       type => Restaurant,
