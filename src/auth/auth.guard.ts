@@ -18,6 +18,7 @@ export class AuthGuard implements CanActivate{
           'roles',
           context.getHandler(),
         );
+        console.log(roles);
         if (!roles) {
           return true;
         }
